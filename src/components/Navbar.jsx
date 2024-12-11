@@ -22,6 +22,21 @@ const Navbar = () => {
   // ตรวจสอบการเลื่อนหน้าจอ
   const { y: currentScrollY } = useWindowScroll();
 
+  // Smooth scroll effect
+  const handleNavClick = (e, id) => {
+    e.preventDefault();
+
+    const target = e.target.getAttribute('href').slice(1);
+    const targetElement = document.getElementById(target);
+
+    if (targetElement) {
+      window.scrollBy({
+        top: targetElement.getBoundingClientRect().top - 90,
+        behavior: "smooth",
+      });
+    }
+  }
+
   useEffect(() => {
     if (currentScrollY === 0) {
       // ถ้าเลื่อนหน้าจอไปที่ตำแหน่งบนสุด: แสดง navbar โดยไม่ใช้ floating-nav
@@ -85,7 +100,7 @@ const Navbar = () => {
             <div className='hidden md:block'>
               {/* แสดงรายการเมนูเฉพาะในหน้าจอขนาดใหญ่ */}
               {navItems.map((item) => (
-                <a className='nav-hover-btn' key={item} href={`#${item.toLowerCase()}`}>
+                <a className='nav-hover-btn' key={item} href={`#${item.toLowerCase()}`} onClick={(e) => handleNavClick(e, item.toLowerCase())}>
                   {item}
                 </a>
               ))}

@@ -18,6 +18,24 @@ const Hero = () => {
   const totalVideos = 4; // จำนวนวิดีโอทั้งหมด
   const nextVideoRef = useRef(null) // ref สำหรับอ้างอิงวิดีโอถัดไป
 
+  const redefineTextRef = useRef(null);
+  const gamingTextRef = useRef(null);
+  const paragraphRef = useRef(null);
+  useEffect(() => {
+    gsap.fromTo(redefineTextRef.current,
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 2.5, ease: 'power3.out' }
+    );
+    gsap.fromTo(gamingTextRef.current,
+      { opacity: 0, x: -50 },
+      { opacity: 1, x: 0, duration: 2.5, ease: 'power3.out', delay: 0.5 }
+    );
+    gsap.fromTo(paragraphRef.current,
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 2.5, ease: 'power3.out', delay: 1 }
+    );
+  }, [])
+
   // Function สำหรับเพิ่มจำนวนวิดีโอที่โหลดเสร็จแล้ว
   // รับค่า state ก่อนหน้าผ่าน prev แล้วเพิ่มค่าขึ้น 1
   // ใช้ร่วมกับ state loadedVideos เพื่อติดตามสถานะการโหลดวิดีโอ
@@ -133,7 +151,7 @@ const Hero = () => {
           {/* วิดีโอหลัก */}
           <video
             src={getVideoSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}
-            // autoPlay
+            autoPlay
             loop
             muted
             className='absolute left-0 top-0 size-full object-cover object-center'
@@ -142,17 +160,17 @@ const Hero = () => {
         </div>
 
         {/* ข้อความ Gaming ด้านล่างขวา */}
-        <h1 className='special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75'>
+        <h1 ref={gamingTextRef} className='special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75'>
           G<b>a</b>ming
         </h1>
 
         {/* Content ด้านบน */}
         <div className='absolute left-0 top-0 z-40 size-full'>
           <div className='mt-24 px-5 sm:px-10'>
-            <h1 className='special-font hero-heading text-blue-100'>
+            <h1 ref={redefineTextRef} className='special-font hero-heading text-blue-100'>
               redefi<b>n</b>e
             </h1>
-            <p className='mb-5 max-w-64 font-robert-regular text-blue-100'>
+            <p ref={paragraphRef} className='mb-5 max-w-64 font-robert-regular text-blue-100'>
               Enter the Metagame Layer <br /> Unleash the Play Economy
             </p>
 
